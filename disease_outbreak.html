@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4"><i class="fas fa-exclamation-triangle me-2"></i>Disease Outbreak Tracker</h2>
+
+            <div class="alert alert-danger">
+                <h5><i class="fas fa-bullhorn me-2"></i>Current Health Alerts</h5>
+                <p class="mb-0">Stay informed about disease outbreaks and health advisories across Liberia.</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card border-warning">
+                        <div class="card-header bg-warning text-dark">
+                            <h5><i class="fas fa-bug me-2"></i>Malaria Alert</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Status:</strong> Active Monitoring</p>
+                            <p><strong>Affected Counties:</strong> Montserrado, Bong, Nimba</p>
+                            <p><strong>Last Updated:</strong> December 2024</p>
+                            <p>Increased malaria cases reported. Use mosquito nets and seek immediate treatment for fever.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="card border-info">
+                        <div class="card-header bg-info text-white">
+                            <h5><i class="fas fa-water me-2"></i>Cholera Prevention</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Status:</strong> Preventive Measures</p>
+                            <p><strong>Risk Areas:</strong> Coastal counties</p>
+                            <p><strong>Last Updated:</strong> December 2024</p>
+                            <p>Practice good hygiene and use clean water sources. Report suspected cases immediately.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="card border-success">
+                        <div class="card-header bg-success text-white">
+                            <h5><i class="fas fa-syringe me-2"></i>Vaccination Campaign</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Status:</strong> Ongoing</p>
+                            <p><strong>Target:</strong> All counties</p>
+                            <p><strong>Vaccines:</strong> Measles, Polio, COVID-19</p>
+                            <p>Free vaccination available at all health centers. Bring your vaccination card.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="card border-primary">
+                        <div class="card-header bg-primary text-white">
+                            <h5><i class="fas fa-heartbeat me-2"></i>Health Tips</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="mb-0">
+                                <li>Wash hands frequently with soap</li>
+                                <li>Use treated mosquito nets</li>
+                                <li>Drink clean, treated water</li>
+                                <li>Seek medical care for persistent fever</li>
+                                <li>Maintain social distancing when sick</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-chart-line me-2"></i>Report Symptoms</h5>
+                </div>
+                <div class="card-body">
+                    <p>Help us track disease patterns by reporting symptoms in your area.</p>
+                    <form id="symptomReport">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select class="form-control" name="county" required>
+                                    <option value="">Select County</option>
+                                    <option value="Montserrado">Montserrado</option>
+                                    <option value="Bong">Bong</option>
+                                    <option value="Nimba">Nimba</option>
+                                    <!-- Add other counties -->
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control" name="symptoms" required>
+                                    <option value="">Select Symptoms</option>
+                                    <option value="fever">Fever</option>
+                                    <option value="diarrhea">Diarrhea</option>
+                                    <option value="rash">Skin Rash</option>
+                                    <option value="cough">Persistent Cough</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary">Report</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><i class="fas fa-exclamation-triangle me-2"></i>Current Health Alerts</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="alert alert-warning">
+                                    <strong>Yellow Fever Alert:</strong> Increased cases reported in rural areas. 
+                                    Vaccination recommended for travelers.
+                                </div>
+                                <div class="alert alert-info">
+                                    <strong>Malaria Season:</strong> Rainy season has begun. Use mosquito nets and repellents.
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <img src="https://via.placeholder.com/300x200/FF6B6B/FFFFFF?text=Disease+Prevention" 
+                                     alt="Disease prevention measures" class="img-fluid rounded shadow">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div></div>
+
+        <!-- Disease Information Gallery -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><i class="fas fa-book-medical me-2"></i>Common Diseases in Liberia</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <img src="https://via.placeholder.com/400x250/FF6B6B/FFFFFF?text=Malaria+Symptoms" 
+                                         alt="Malaria symptoms" class="card-img-top">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Malaria</h6>
+                                        <p class="card-text small">Fever, chills, headache, sweating. Use mosquito nets for prevention.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <img src="https://via.placeholder.com/400x250/4ECDC4/FFFFFF?text=Typhoid+Fever" 
+                                         alt="Typhoid symptoms" class="card-img-top">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Typhoid Fever</h6>
+                                        <p class="card-text small">Prolonged fever, weakness, stomach pain. Practice good hygiene.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <img src="https://via.placeholder.com/400x250/96CEB4/FFFFFF?text=Cholera+Prevention" 
+                                         alt="Cholera prevention" class="card-img-top">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Cholera</h6>
+                                        <p class="card-text small">Diarrhea, vomiting, dehydration. Use clean water and proper sanitation.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('symptomReport').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Thank you for reporting. This information helps us monitor health trends across Liberia.');
+    this.reset();
+});
+</script>
+{% endblock %}

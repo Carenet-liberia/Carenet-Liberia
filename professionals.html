@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-filter me-2"></i>Filter Doctors</h5>
+                </div>
+                <div class="card-body">
+                    <form method="GET">
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" placeholder="Doctor's name" value="{{ request.args.get('name', '') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">County</label>
+                            <select class="form-control" name="county">
+                                <option value="">All Counties</option>
+                                {% for county in counties %}
+                                <option value="{{ county }}" {{ 'selected' if request.args.get('county') == county }}>{{ county }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Specialty</label>
+                            <select class="form-control" name="specialty">
+                                <option value="">All Specialties</option>
+                                {% for spec in specializations %}
+                                <option value="{{ spec }}" {{ 'selected' if request.args.get('specialty') == spec }}>{{ spec }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Profession</label>
+                            <select class="form-control" name="profession">
+                                <option value="">All Professions</option>
+                                <option value="Doctor" {{ 'selected' if request.args.get('profession') == 'Doctor' }}>Doctor</option>
+                                <option value="Nurse" {{ 'selected' if request.args.get('profession') == 'Nurse' }}>Nurse</option>
+                                <option value="Midwife" {{ 'selected' if request.args.get('profession') == 'Midwife' }}>Midwife</option>
+                                <option value="Lab" {{ 'selected' if request.args.get('profession') == 'Lab' }}>Lab Technician</option>
+                                <option value="Pharmacist" {{ 'selected' if request.args.get('profession') == 'Pharmacist' }}>Pharmacist</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                        <a href="/professionals" class="btn btn-outline-secondary w-100 mt-2">Clear Filters</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <h2 class="mb-4"><i class="fas fa-user-md me-2"></i>Health Professionals</h2>
+
+            {% if professionals %}
+                <div class="row">
+                    {% for professional in professionals %}
+                    <div class="col-lg-6 mb-4">
+                        <div class="card professional-card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <h5 class="card-title mb-1">Dr. {{ professional.name }}</h5>
+                                        <p class="text-muted mb-1">{{ professional.specialty }}</p>
+                                        <p class="text-success mb-0">
+                                            <i class="fas fa-map-marker-alt me-1"></i>{{ professional.county }} County
+                                        </p>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="text-warning mb-1">
+                                            {% for i in range(5) %}
+                                                {% if i < professional.rating %}
+                                                    <i class="fas fa-star"></i>
+                                                {% else %}
+                                                    <i class="far fa-star"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <small class="text-muted">{{ professional.rating }}/5</small>
+                                    </div>
+                                </div>
+
+                                {% if professional.availability %}
+                                <p class="mb-2">
+                                    <i class="fas fa-clock me-1"></i>
+                                    <strong>Available:</strong> {{ professional.availability }}
+                                </p>
+                                {% endif %}
+
+                                {% if professional.contact %}
+                                <p class="mb-3">
+                                    <i class="fas fa-phone me-1"></i>{{ professional.contact }}
+                                </p>
+                                {% endif %}
+
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-primary btn-sm" onclick="bookAppointment({{ professional.id }}, '{{ professional.name }}', 'in-person')">
+                                        <i class="fas fa-calendar-plus me-1"></i>Book In-Person
+                                    </button>
+                                    <button class="btn btn-outline-primary btn-sm" onclick="bookAppointment({{ professional.id }}, '{{ professional.name }}', 'virtual')">
+                                        <i class="fas fa-video me-1"></i>Virtual Call
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-user-md fa-3x text-muted mb-3"></i>
+                    <h4>No professionals found</h4>
+                    <p class="text-muted">Try adjusting your filters or check back later.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Appointment Modal -->
+<div class="modal fade" id="appointmentModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Book Appointment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="appointmentForm">
+                    <input type="hidden" id="professionalId" name="professional_id">
+                    <input type="hidden" id="appointmentType" name="appointment_type">
+
+                    <div class="mb-3">
+                        <label class="form-label">Doctor</label>
+                        <input type="text" class="form-control" id="doctorName" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Appointment Date & Time</label>
+                        <input type="datetime-local" class="form-control" name="appointment_date" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Notes (Optional)</label>
+                        <textarea class="form-control" name="notes" rows="3" placeholder="Describe your symptoms or reason for visit..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="submitAppointment()">Book Appointment</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function bookAppointment(professionalId, doctorName, appointmentType) {
+    // Check if user is logged in
+    fetch('/dashboard')
+    .then(response => {
+        if (response.redirected) {
+            alert('Please login to book an appointment');
+            window.location.href = '/login';
+            return;
+        }
+
+        // Set modal data
+        document.getElementById('professionalId').value = professionalId;
+        document.getElementById('doctorName').value = 'Dr. ' + doctorName;
+        document.getElementById('appointmentType').value = appointmentType;
+
+        // Show modal
+        new bootstrap.Modal(document.getElementById('appointmentModal')).show();
+    });
+}
+
+function submitAppointment() {
+    const formData = new FormData(document.getElementById('appointmentForm'));
+    const data = Object.fromEntries(formData);
+
+    fetch('/book_appointment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Appointment booked successfully!');
+            bootstrap.Modal.getInstance(document.getElementById('appointmentModal')).hide();
+        } else {
+            alert('Failed to book appointment: ' + data.message);
+        }
+    })
+    .catch(error => {
+        alert('Error: ' + error);
+    });
+}
+</script>
+{% endblock %}

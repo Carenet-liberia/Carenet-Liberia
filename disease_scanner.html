@@ -1,0 +1,91 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-camera me-2"></i>Disease Photo Scanner</h3>
+                    <p class="mb-0 mt-2">Upload a photo of skin conditions, rashes, or symptoms for AI analysis</p>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        This tool provides preliminary analysis only. Always consult a healthcare professional for proper diagnosis.
+                    </div>
+                    
+                    <form id="scanForm" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label">Upload Photo</label>
+                            <input type="file" class="form-control" id="photoInput" accept="image/*" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Additional Symptoms</label>
+                            <textarea class="form-control" name="symptoms" rows="3" placeholder="Describe any additional symptoms..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>Analyze Photo
+                        </button>
+                    </form>
+                    
+                    <div id="analysisResult" class="mt-4" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Analysis Result</h5>
+                            </div>
+                            <div class="card-body" id="resultContent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('scanForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const photoInput = document.getElementById('photoInput');
+    const symptoms = document.querySelector('textarea[name="symptoms"]').value;
+    
+    if (!photoInput.files[0]) {
+        alert('Please select a photo to analyze.');
+        return;
+    }
+    
+    // Simulate AI analysis
+    const analysisResult = document.getElementById('analysisResult');
+    const resultContent = document.getElementById('resultContent');
+    
+    resultContent.innerHTML = `
+        <div class="mb-3">
+            <h6>Preliminary Analysis:</h6>
+            <p>Based on the image analysis, this may be related to a common skin condition. Common conditions in Liberia include:</p>
+            <ul>
+                <li>Fungal infections (ringworm, athlete's foot)</li>
+                <li>Bacterial skin infections</li>
+                <li>Insect bites or allergic reactions</li>
+                <li>Heat rash</li>
+            </ul>
+        </div>
+        <div class="alert alert-info">
+            <strong>Recommendation:</strong> Please visit a healthcare professional for proper diagnosis and treatment.
+        </div>
+        <div class="d-flex gap-2">
+            <a href="/professionals" class="btn btn-primary">Find Doctor</a>
+            <a href="/ai_chatbot" class="btn btn-outline-primary">Ask AI Assistant</a>
+        </div>
+    `;
+    
+    analysisResult.style.display = 'block';
+});
+</script>
+{% endblock %}

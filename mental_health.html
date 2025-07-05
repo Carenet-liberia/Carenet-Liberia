@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0"><i class="fas fa-brain me-2"></i>Mental Health Support</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Your mental health matters. We provide confidential support and resources for all Liberians.
+                    </div>
+
+                    <h5>Quick Mood Check</h5>
+                    <form id="moodAssessment">
+                        <div class="mb-3">
+                            <label class="form-label">How are you feeling today? (1-10 scale)</label>
+                            <input type="range" class="form-range" min="1" max="10" value="5" name="mood_score" id="moodRange">
+                            <div class="d-flex justify-content-between">
+                                <small>Very Sad</small>
+                                <small id="moodValue">5</small>
+                                <small>Very Happy</small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Anxiety Level (1-10 scale)</label>
+                            <input type="range" class="form-range" min="1" max="10" value="5" name="anxiety_level" id="anxietyRange">
+                            <div class="d-flex justify-content-between">
+                                <small>Very Calm</small>
+                                <small id="anxietyValue">5</small>
+                                <small>Very Anxious</small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Have you experienced any of these recently? (Check all that apply)</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="depression_indicators" value="sleep_problems">
+                                <label class="form-check-label">Sleep problems</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="depression_indicators" value="loss_of_interest">
+                                <label class="form-check-label">Loss of interest in activities</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="depression_indicators" value="feeling_hopeless">
+                                <label class="form-check-label">Feeling hopeless</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="depression_indicators" value="appetite_changes">
+                                <label class="form-check-label">Changes in appetite</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-heart me-2"></i>Submit Assessment
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-lightbulb me-2"></i>Mental Health Resources</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <h6>Self-Care Tips</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>Practice deep breathing</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Stay connected with friends</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Get regular exercise</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Maintain a routine</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <h6>Warning Signs to Watch</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-exclamation-triangle text-warning me-2"></i>Persistent sadness</li>
+                                <li><i class="fas fa-exclamation-triangle text-warning me-2"></i>Social withdrawal</li>
+                                <li><i class="fas fa-exclamation-triangle text-warning me-2"></i>Thoughts of self-harm</li>
+                                <li><i class="fas fa-exclamation-triangle text-warning me-2"></i>Substance abuse</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fas fa-phone me-2"></i>Crisis Support</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <h4 class="text-danger">988</h4>
+                        <p>Mental Health Crisis Line</p>
+                        <p class="small">Available 24/7 for immediate support</p>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-danger" onclick="emergency()">
+                            <i class="fas fa-phone me-2"></i>Call Crisis Line
+                        </button>
+                        <a href="{{ url_for('ai_chatbot') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-robot me-2"></i>Chat with AI
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-user-md me-2"></i>Licensed Therapists</h5>
+                </div>
+                <div class="card-body">
+                    <p>Connect with licensed mental health professionals in Liberia.</p>
+                    <a href="{{ url_for('professionals') }}?specialty=Mental Health" class="btn btn-primary w-100">
+                        <i class="fas fa-calendar-plus me-2"></i>Book Therapy Session
+                    </a>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>Support Groups</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small">Virtual and in-person support groups across all counties.</p>
+                    <ul class="list-unstyled small">
+                        <li>• Depression Support Group</li>
+                        <li>• Anxiety Management</li>
+                        <li>• Grief Counseling</li>
+                        <li>• Youth Mental Health</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Update range displays
+document.getElementById('moodRange').addEventListener('input', function() {
+    document.getElementById('moodValue').textContent = this.value;
+});
+
+document.getElementById('anxietyRange').addEventListener('input', function() {
+    document.getElementById('anxietyValue').textContent = this.value;
+});
+
+// Handle assessment submission
+document.getElementById('moodAssessment').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+
+    // Collect checkbox values
+    const checkboxes = document.querySelectorAll('input[name="depression_indicators"]:checked');
+    data.depression_indicators = Array.from(checkboxes).map(cb => cb.value);
+
+    fetch('/assessment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Thank you for sharing. Your response helps us provide better support.');
+        } else {
+            alert('Please login to save your assessment.');
+        }
+    })
+    .catch(error => {
+        alert('Assessment submitted locally. Consider speaking with a mental health professional.');
+    });
+});
+</script>
+{% endblock %}
+<div class="card">
+                    <div class="card-header">
+                        <h4><i class="fas fa-brain me-2"></i>Mental Health Assessment</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- Mental Health Support Images -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <img src="https://via.placeholder.com/400x250/E74C3C/FFFFFF?text=Mental+Health+Support" 
+                                     alt="Mental health counseling session" class="img-fluid rounded shadow">
+                                <p class="text-center mt-2"><small>Professional counseling support</small></p>
+                            </div>
+                            <div class="col-md-6">
+                                <img src="https://via.placeholder.com/400x250/9B59B6/FFFFFF?text=Therapy+Session" 
+                                     alt="Group therapy session" class="img-fluid rounded shadow">
+                                <p class="text-center mt-2"><small>Group therapy and support</small></p>
+                            </div>
+                        </div>

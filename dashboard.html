@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-tachometer-alt me-2"></i>Dashboard</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="stats-card">
+                                <h4><i class="fas fa-calendar-check"></i></h4>
+                                <h5>My Appointments</h5>
+                                <a href="/appointments" class="btn btn-light btn-sm">View All</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="stats-card">
+                                <h4><i class="fas fa-prescription"></i></h4>
+                                <h5>Prescriptions</h5>
+                                <a href="/prescriptions" class="btn btn-light btn-sm">View All</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="stats-card">
+                                <h4><i class="fas fa-robot"></i></h4>
+                                <h5>AI Assistant</h5>
+                                <a href="/ai_chatbot" class="btn btn-light btn-sm">Chat Now</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="stats-card">
+                                <h4><i class="fas fa-brain"></i></h4>
+                                <h5>Mental Health</h5>
+                                <a href="/mental_health" class="btn btn-light btn-sm">Get Support</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

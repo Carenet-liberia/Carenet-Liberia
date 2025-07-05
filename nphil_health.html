@@ -1,0 +1,85 @@
+
+{% extends "base.html" %}
+
+{% block title %}NPHIL Health Information - eCare Liberia{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-hospital me-2"></i>National Public Health Institute - Health Information</h2>
+                <button id="refreshData" class="btn btn-primary">
+                    <i class="fas fa-sync-alt me-2"></i>Refresh Data
+                </button>
+            </div>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                Latest health information and updates from the National Public Health Institute of Liberia (NPHIL).
+            </div>
+            
+            <div id="healthData">
+                {% if health_data %}
+                    <div class="row">
+                        {% for item in health_data %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.title }}</h5>
+                                    <p class="card-text">{{ item.content[:300] }}{% if item.content|length > 300 %}...{% endif %}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="badge bg-primary">{{ item.category|title }}</span>
+                                        <small class="text-muted">Source: {{ item.source }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                        <h4>No Health Information Available</h4>
+                        <p class="text-muted">Unable to fetch health information at the moment. Please try refreshing.</p>
+                        <button id="retryFetch" class="btn btn-primary">
+                            <i class="fas fa-redo me-2"></i>Try Again
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('refreshData').addEventListener('click', function() {
+    const button = this;
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+    button.disabled = true;
+    
+    fetch('/api/fetch_nphil_data')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Failed to fetch health data. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error fetching health data. Please check your connection.');
+        })
+        .finally(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        });
+});
+
+document.getElementById('retryFetch')?.addEventListener('click', function() {
+    location.reload();
+});
+</script>
+{% endblock %}

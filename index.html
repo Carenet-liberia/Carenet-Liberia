@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-4" data-translate="welcome">
+            {{ get_translation('welcome', current_language) }} 🇱🇷
+        </h1>
+        <p class="lead mb-4" data-translate="health_for_all">
+            {{ get_translation('health_for_all', current_language) }}
+        </p>
+        <p class="fs-5 mb-4">
+            {{ get_translation('book_appointment', current_language) }} • {{ get_translation('ai_assistant', current_language) }} • {{ get_translation('mental_health', current_language) }} • {{ get_translation('telemedicine', current_language) }}
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('register') }}" class="btn btn-light btn-lg">
+                <i class="fas fa-user-plus me-2"></i>{{ get_translation('register', current_language) }}
+            </a>
+            <a href="{{ url_for('ai_chatbot') }}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-robot me-2"></i>{{ get_translation('ai_assistant', current_language) }}
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-4 mb-3">
+                <div class="stats-card">
+                    <h3><i class="fas fa-users"></i></h3>
+                    <h4>10,000+</h4>
+                    <p>Registered Users</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stats-card">
+                    <h3><i class="fas fa-user-md"></i></h3>
+                    <h4>500+</h4>
+                    <p>Health Professionals</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stats-card">
+                    <h3><i class="fas fa-map-marker-alt"></i></h3>
+                    <h4>15</h4>
+                    <p>Counties Covered</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-center mb-5 fw-bold">Core Features</h2>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h5 class="card-title">Appointment Booking</h5>
+                        <p class="card-text">Book appointments with doctors across all 15 counties. In-person or virtual consultations available.</p>
+                        <a href="{{ url_for('professionals') }}" class="btn btn-primary">Find Doctors</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h5 class="card-title">AI Health Assistant</h5>
+                        <p class="card-text">24/7 AI-powered symptom checker and health guidance. Get immediate assistance for common health concerns.</p>
+                        <a href="{{ url_for('ai_chatbot') }}" class="btn btn-primary">Chat Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h5 class="card-title">Mental Health Support</h5>
+                        <p class="card-text">Access licensed therapists, mood tracking, and crisis support. Mental health matters in Liberia.</p>
+                        <a href="{{ url_for('mental_health') }}" class="btn btn-primary">Get Support</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h5 class="card-title">Telemedicine</h5>
+                        <p class="card-text">Secure video consultations with healthcare providers. No need to travel long distances.</p>
+                        <a href="{{ url_for('telemedicine') }}" class="btn btn-primary">Start Call</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <h5 class="card-title">Health Facilities</h5>
+                        <p class="card-text">Find hospitals, clinics, and health centers across all counties with detailed information and locations.</p>
+                        <a href="{{ url_for('facilities') }}" class="btn btn-primary">View Facilities</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-book-medical"></i>
+                        </div>
+                        <h5 class="card-title">Health Education</h5>
+                        <p class="card-text">Access articles, videos, and resources about malaria, maternal health, family planning, and more.</p>
+                        <a href="{{ url_for('health_education') }}" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h5 class="card-title">Disease Scanner</h5>
+                        <p class="card-text">AI-powered photo analysis to help identify skin conditions and symptoms for preliminary diagnosis.</p>
+                        <a href="{{ url_for('disease_scanner') }}" class="btn btn-primary">Scan Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h5 class="card-title">Outbreak Tracker</h5>
+                        <p class="card-text">Real-time monitoring of disease outbreaks and health alerts across all counties in Liberia.</p>
+                        <a href="{{ url_for('disease_outbreak') }}" class="btn btn-primary">View Alerts</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <h5 class="card-title">NPHIL Health Updates</h5>
+                        <p class="card-text">Latest health information and alerts from the National Public Health Institute of Liberia.</p>
+                        <a href="{{ url_for('nphil_health_info') }}" class="btn btn-primary">View Updates</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5" style="background-color: rgba(127, 176, 105, 0.1);">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-4">Supporting All 15 Counties of Liberia</h2>
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <span class="badge bg-success fs-6 me-2">Bomi</span>
+                <span class="badge bg-success fs-6 me-2">Bong</span>
+                <span class="badge bg-success fs-6 me-2">Gbarpolu</span>
+                <span class="badge bg-success fs-6 me-2">Grand Bassa</span>
+            </div>
+            <div class="col-md-3 mb-2">
+                <span class="badge bg-success fs-6 me-2">Grand Cape Mount</span>
+                <span class="badge bg-success fs-6 me-2">Grand Gedeh</span>
+                <span class="badge bg-success fs-6 me-2">Grand Kru</span>
+                <span class="badge bg-success fs-6 me-2">Lofa</span>
+            </div>
+            <div class="col-md-3 mb-2">
+                <span class="badge bg-success fs-6 me-2">Margibi</span>
+                <span class="badge bg-success fs-6 me-2">Maryland</span>
+                <span class="badge bg-success fs-6 me-2">Montserrado</span>
+                <span class="badge bg-success fs-6 me-2">Nimba</span>
+            </div>
+            <div class="col-md-3 mb-2">
+                <span class="badge bg-success fs-6 me-2">River Cess</span>
+                <span class="badge bg-success fs-6 me-2">River Gee</span>
+                <span class="badge bg-success fs-6 me-2">Sinoe</span>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

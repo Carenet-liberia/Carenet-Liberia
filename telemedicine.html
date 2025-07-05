@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-video me-2"></i>Telemedicine - Virtual Consultations</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Telemedicine Consultation Image -->
+                    <div class="text-center mb-4">
+                        <img src="https://via.placeholder.com/600x300/3498DB/FFFFFF?text=Telemedicine+Consultation" 
+                             alt="Doctor conducting telemedicine consultation" class="img-fluid rounded shadow">
+                        <p class="mt-2"><small>Connect with healthcare professionals remotely</small></p>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Connect with healthcare professionals through secure video calls from anywhere in Liberia.
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <h5>Start a Video Call</h5>
+                            <p>Connect instantly with available doctors.</p>
+                            <button class="btn btn-primary w-100" onclick="startVideoCall()">
+                                <i class="fas fa-video me-2"></i>Start Video Consultation
+                            </button>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <h5>Schedule Virtual Appointment</h5>
+                            <p>Book a video consultation for later.</p>
+                            <a href="{{ url_for('professionals') }}" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-calendar-plus me-2"></i>Schedule Appointment
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <h5>Requirements for Video Calls:</h5>
+                        <ul>
+                            <li>Stable internet connection</li>
+                            <li>Camera and microphone enabled</li>
+                            <li>Quiet, well-lit environment</li>
+                            <li>Valid appointment or emergency consultation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function startVideoCall() {
+    alert('Video consultation feature will be available soon. Please book an appointment with a professional for now.');
+}
+</script>
+{% endblock %}

@@ -1,0 +1,168 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0"><i class="fas fa-user-plus me-2"></i>Join CareNet Liberia</h3>
+                </div>
+                <div class="card-body">
+                    <form id="registerForm">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Full Name *</label>
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email *</label>
+                                <input type="email" class="form-control" name="email" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Password *</label>
+                                <input type="password" class="form-control" name="password" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Contact Number</label>
+                                <input type="tel" class="form-control" name="contact" placeholder="+231...">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label">User Type *</label>
+                                <select class="form-control" name="user_type" id="userType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="patient">Patient</option>
+                                    <option value="professional">Health Professional</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">County *</label>
+                                <select class="form-control" name="county" required>
+                                    <option value="">Select County</option>
+                                    {% for county in counties %}
+                                    <option value="{{ county }}">{{ county }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Gender</label>
+                                <select class="form-control" name="gender">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="patientFields" style="display: none;">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Age</label>
+                                    <input type="number" class="form-control" name="age" min="1" max="120">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Medical History (Optional)</label>
+                                <textarea class="form-control" name="medical_history" rows="3" placeholder="Any chronic conditions, allergies, or important medical information..."></textarea>
+                            </div>
+                        </div>
+
+                        <div id="professionalFields" style="display: none;">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Medical Specialty *</label>
+                                    <select class="form-control" name="specialty">
+                                        <option value="">Select Specialty</option>
+                                        <option value="General Medicine">General Medicine</option>
+                                        <option value="Pediatrics">Pediatrics</option>
+                                        <option value="Obstetrics & Gynecology">Obstetrics & Gynecology</option>
+                                        <option value="Surgery">Surgery</option>
+                                        <option value="Mental Health">Mental Health</option>
+                                        <option value="Emergency Medicine">Emergency Medicine</option>
+                                        <option value="Family Medicine">Family Medicine</option>
+                                        <option value="Internal Medicine">Internal Medicine</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">License Number</label>
+                                    <input type="text" class="form-control" name="license_info" placeholder="Medical license number">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Availability</label>
+                                <textarea class="form-control" name="availability" rows="2" placeholder="e.g., Mon-Fri 9AM-5PM, Emergency calls available"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>Register
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('userType').addEventListener('change', function() {
+    const userType = this.value;
+    const patientFields = document.getElementById('patientFields');
+    const professionalFields = document.getElementById('professionalFields');
+    
+    if (userType === 'patient') {
+        patientFields.style.display = 'block';
+        professionalFields.style.display = 'none';
+    } else if (userType === 'professional') {
+        patientFields.style.display = 'none';
+        professionalFields.style.display = 'block';
+    } else {
+        patientFields.style.display = 'none';
+        professionalFields.style.display = 'none';
+    }
+});
+
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+    
+    fetch('/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Registration successful! You can now login.');
+            window.location.href = '/login';
+        } else {
+            alert('Registration failed: ' + data.message);
+        }
+    })
+    .catch(error => {
+        alert('Error: ' + error);
+    });
+});
+</script>
+{% endblock %}

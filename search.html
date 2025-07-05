@@ -1,0 +1,151 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4 text-center"><i class="fas fa-search me-2"></i>Search Health Services</h2>
+    
+    <!-- Search Tabs -->
+    <ul class="nav nav-tabs mb-4" id="searchTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="professionals-tab" data-bs-toggle="tab" data-bs-target="#professionals" type="button" role="tab">
+                <i class="fas fa-user-md me-2"></i>Health Professionals
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="facilities-tab" data-bs-toggle="tab" data-bs-target="#facilities" type="button" role="tab">
+                <i class="fas fa-hospital me-2"></i>Health Facilities
+            </button>
+        </li>
+    </ul>
+    
+    <div class="tab-content" id="searchTabContent">
+        <!-- Professionals Search -->
+        <div class="tab-pane fade show active" id="professionals" role="tabpanel">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-filter me-2"></i>Search Health Professionals</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/professionals" method="GET">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Name</label>
+                                <input type="text" class="form-control" name="name" placeholder="Doctor's name" value="{{ request.args.get('name', '') }}">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">County</label>
+                                <select class="form-control" name="county">
+                                    <option value="">All Counties</option>
+                                    {% for county in counties %}
+                                    <option value="{{ county }}" {{ 'selected' if request.args.get('county') == county }}>{{ county }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Specialization</label>
+                                <input type="text" class="form-control" name="specialty" placeholder="e.g., Pediatrics" value="{{ request.args.get('specialty', '') }}">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Profession</label>
+                                <select class="form-control" name="profession">
+                                    <option value="">All Professions</option>
+                                    <option value="Doctor" {{ 'selected' if request.args.get('profession') == 'Doctor' }}>Doctor</option>
+                                    <option value="Nurse" {{ 'selected' if request.args.get('profession') == 'Nurse' }}>Nurse</option>
+                                    <option value="Midwife" {{ 'selected' if request.args.get('profession') == 'Midwife' }}>Midwife</option>
+                                    <option value="Lab Tech" {{ 'selected' if request.args.get('profession') == 'Lab Tech' }}>Lab Technician</option>
+                                    <option value="Pharmacist" {{ 'selected' if request.args.get('profession') == 'Pharmacist' }}>Pharmacist</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>Search Professionals
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Facilities Search -->
+        <div class="tab-pane fade" id="facilities" role="tabpanel">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-filter me-2"></i>Search Health Facilities</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/facilities" method="GET">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Facility Name</label>
+                                <input type="text" class="form-control" name="name" placeholder="Hospital or clinic name" value="{{ request.args.get('name', '') }}">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">County</label>
+                                <select class="form-control" name="county">
+                                    <option value="">All Counties</option>
+                                    {% for county in counties %}
+                                    <option value="{{ county }}" {{ 'selected' if request.args.get('county') == county }}>{{ county }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Facility Type</label>
+                                <select class="form-control" name="facility_type">
+                                    <option value="">All Types</option>
+                                    <option value="Hospital" {{ 'selected' if request.args.get('facility_type') == 'Hospital' }}>Hospital</option>
+                                    <option value="Health Center" {{ 'selected' if request.args.get('facility_type') == 'Health Center' }}>Health Center</option>
+                                    <option value="Clinic" {{ 'selected' if request.args.get('facility_type') == 'Clinic' }}>Clinic</option>
+                                    <option value="Medical Center" {{ 'selected' if request.args.get('facility_type') == 'Medical Center' }}>Medical Center</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Service Needed</label>
+                                <input type="text" class="form-control" name="service" placeholder="e.g., Maternity, Surgery" value="{{ request.args.get('service', '') }}">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>Search Facilities
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Search Suggestions -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6><i class="fas fa-star me-2"></i>Popular Specializations</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="/professionals?specialty=General Medicine" class="btn btn-outline-primary btn-sm">General Medicine</a>
+                        <a href="/professionals?specialty=Pediatrics" class="btn btn-outline-primary btn-sm">Pediatrics</a>
+                        <a href="/professionals?specialty=Surgery" class="btn btn-outline-primary btn-sm">Surgery</a>
+                        <a href="/professionals?specialty=Maternal Health" class="btn btn-outline-primary btn-sm">Maternal Health</a>
+                        <a href="/professionals?specialty=Mental Health" class="btn btn-outline-primary btn-sm">Mental Health</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6><i class="fas fa-map-marker-alt me-2"></i>Popular Counties</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="/professionals?county=Montserrado" class="btn btn-outline-success btn-sm">Montserrado</a>
+                        <a href="/professionals?county=Bong" class="btn btn-outline-success btn-sm">Bong</a>
+                        <a href="/professionals?county=Nimba" class="btn btn-outline-success btn-sm">Nimba</a>
+                        <a href="/professionals?county=Grand Bassa" class="btn btn-outline-success btn-sm">Grand Bassa</a>
+                        <a href="/professionals?county=Lofa" class="btn btn-outline-success btn-sm">Lofa</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

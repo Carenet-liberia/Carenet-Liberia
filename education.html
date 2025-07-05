@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-filter me-2"></i>Filter Content</h5>
+                </div>
+                <div class="card-body">
+                    <form method="GET">
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-control" name="category">
+                                <option value="">All Categories</option>
+                                <option value="malaria">Malaria</option>
+                                <option value="maternal">Maternal Health</option>
+                                <option value="mental">Mental Health</option>
+                                <option value="nutrition">Nutrition</option>
+                                <option value="family-planning">Family Planning</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Language</label>
+                            <select class="form-control" name="language">
+                                <option value="English">English</option>
+                                <option value="Kpelle">Kpelle</option>
+                                <option value="Bassa">Bassa</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <h2 class="mb-4"><i class="fas fa-book-medical me-2"></i>Health Education</h2>
+
+            {% if articles %}
+                <div class="row">
+                    {% for article in articles %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ article.title }}</h5>
+                                <p class="text-muted">{{ article.category|title }} • {{ article.language }}</p>
+                                <p class="card-text">{{ article.content[:200] }}...</p>
+                                <span class="badge bg-primary">{{ article.content_type|title }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-book fa-3x text-muted mb-3"></i>
+                    <h4>No content found</h4>
+                    <p class="text-muted">Try adjusting your filters.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,183 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ get_translation('translator', current_language) or 'Translator' }} - CareNet Liberia{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">
+                        <i class="fas fa-language me-2"></i>
+                        {{ get_translation('translator', current_language) or 'Liberian Language Translator' }}
+                    </h3>
+                    <p class="mb-0 text-muted">Supporting all major languages and dialects of Liberia</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h5>{{ get_translation('from', current_language) or 'From' }}</h5>
+                            <select class="form-select mb-3" id="sourceLanguage">
+                                {% for lang_code, lang_name in available_languages.items() %}
+                                <option value="{{ lang_code }}" {% if lang_code == 'english' %}selected{% endif %}>
+                                    {{ lang_name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <textarea class="form-control" rows="8" id="sourceText" 
+                                placeholder="{{ get_translation('enter_text', current_language) or 'Enter text to translate...' }}"></textarea>
+                        </div>
+                        
+                        <div class="col-md-2 text-center d-flex align-items-center justify-content-center">
+                            <button class="btn btn-primary" onclick="translateNow()" id="translateBtn">
+                                <i class="fas fa-exchange-alt"></i><br>
+                                <small>{{ get_translation('translate', current_language) or 'Translate' }}</small>
+                            </button>
+                        </div>
+                        
+                        <div class="col-md-5">
+                            <h5>{{ get_translation('to', current_language) or 'To' }}</h5>
+                            <select class="form-select mb-3" id="targetLanguage">
+                                {% for lang_code, lang_name in available_languages.items() %}
+                                <option value="{{ lang_code }}" {% if lang_code == current_language %}selected{% endif %}>
+                                    {{ lang_name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <textarea class="form-control" rows="8" id="targetText" readonly 
+                                placeholder="{{ get_translation('translation_appear_here', current_language) or 'Translation will appear here...' }}"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5>{{ get_translation('common_health_phrases', current_language) or 'Common Health Phrases' }}</h5>
+                            <div class="row">
+                                <div class="col-md-4 mb-2">
+                                    <button class="btn btn-outline-primary btn-sm w-100" onclick="setQuickTranslation('I have a fever')">
+                                        "{{ get_translation('fever', current_language) }}"
+                                    </button>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <button class="btn btn-outline-primary btn-sm w-100" onclick="setQuickTranslation('I need a doctor')">
+                                        "{{ get_translation('need_doctor', current_language) or 'I need a doctor' }}"
+                                    </button>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <button class="btn btn-outline-primary btn-sm w-100" onclick="setQuickTranslation('Where is the hospital?')">
+                                        "{{ get_translation('where_hospital', current_language) or 'Where is the hospital?' }}"
+                                    </button>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <button class="btn btn-outline-primary btn-sm w-100" onclick="setQuickTranslation('Help me')">
+                                        "{{ get_translation('help_me', current_language) or 'Help me' }}"
+                                    </button>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <button class="btn btn-outline-primary btn-sm w-100" onclick="setQuickTranslation('Thank you')">
+                                        "{{ get_translation('thank_you', current_language) or 'Thank you' }}"
+                                    </button>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <button class="btn btn-outline-primary btn-sm w-100" onclick="setQuickTranslation('Emergency')">
+                                        "{{ get_translation('emergency', current_language) }}"
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Language Information Card -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        {{ get_translation('about_languages', current_language) or 'About Liberian Languages' }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p>{{ get_translation('language_info', current_language) or 'Liberia is a multilingual country with over 20 indigenous languages. The most widely spoken are:' }}</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><strong>Kpelle</strong> - {{ get_translation('most_spoken', current_language) or 'Most widely spoken indigenous language' }}</li>
+                                <li><strong>Bassa</strong> - {{ get_translation('coastal_regions', current_language) or 'Spoken in coastal regions' }}</li>
+                                <li><strong>Gio (Dan)</strong> - {{ get_translation('nimba_region', current_language) or 'Spoken in Nimba region' }}</li>
+                                <li><strong>Kru</strong> - {{ get_translation('southeastern', current_language) or 'Southeastern regions' }}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><strong>Grebo</strong> - {{ get_translation('maryland_county', current_language) or 'Maryland County' }}</li>
+                                <li><strong>Mano</strong> - {{ get_translation('nimba_lofa', current_language) or 'Nimba and Lofa counties' }}</li>
+                                <li><strong>Liberian English</strong> - {{ get_translation('creole_english', current_language) or 'Creole English variety' }}</li>
+                                <li><strong>Vai</strong> - {{ get_translation('written_script', current_language) or 'Has its own written script' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function translateNow() {
+    const sourceText = document.getElementById('sourceText').value;
+    const targetLanguage = document.getElementById('targetLanguage').value;
+    const translateBtn = document.getElementById('translateBtn');
+    
+    if (!sourceText.trim()) {
+        alert('{{ get_translation("enter_text_first", current_language) or "Please enter some text to translate" }}');
+        return;
+    }
+    
+    translateBtn.disabled = true;
+    translateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><br><small>{{ get_translation("translating", current_language) or "Translating..." }}</small>';
+    
+    fetch('/translate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            text: sourceText,
+            language: targetLanguage
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('targetText').value = data.translated;
+        } else {
+            alert('{{ get_translation("translation_error", current_language) or "Translation error occurred" }}');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('{{ get_translation("translation_error", current_language) or "Translation error occurred" }}');
+    })
+    .finally(() => {
+        translateBtn.disabled = false;
+        translateBtn.innerHTML = '<i class="fas fa-exchange-alt"></i><br><small>{{ get_translation("translate", current_language) or "Translate" }}</small>';
+    });
+}
+
+function setQuickTranslation(text) {
+    document.getElementById('sourceText').value = text;
+    translateNow();
+}
+
+// Auto-translate when target language changes
+document.getElementById('targetLanguage').addEventListener('change', function() {
+    const sourceText = document.getElementById('sourceText').value;
+    if (sourceText.trim()) {
+        translateNow();
+    }
+});
+</script>
+{% endblock %}
